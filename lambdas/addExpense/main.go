@@ -42,11 +42,11 @@ func addExpense(req events.APIGatewayProxyRequest) (events.APIGatewayProxyRespon
 	result, err := dynamoClient.PutItem(context.TODO(), &dynamodb.PutItemInput{
 		TableName: aws.String(os.Getenv("TABLE_NAME")),
 		Item: map[string]types.AttributeValue{
-			"ID":          &types.AttributeValueMemberS{Value: utils.GenerateUUID()},
-			"Title":       &types.AttributeValueMemberS{Value: newExpense.Title},
-			"Amount":      &types.AttributeValueMemberN{Value: fmt.Sprint(newExpense.Amount)},
-			"Category":    &types.AttributeValueMemberS{Value: newExpense.Category},
-			"ExpenseDate": &types.AttributeValueMemberS{Value: newExpense.ExpenseDate},
+			"ID":           &types.AttributeValueMemberS{Value: utils.GenerateUUID()},
+			"Title":        &types.AttributeValueMemberS{Value: newExpense.Title},
+			"Amount":       &types.AttributeValueMemberN{Value: fmt.Sprint(newExpense.Amount)},
+			"Category":     &types.AttributeValueMemberS{Value: newExpense.Category},
+			"expense_date": &types.AttributeValueMemberS{Value: newExpense.ExpenseDate},
 		},
 	})
 
