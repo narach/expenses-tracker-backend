@@ -33,6 +33,15 @@ functions:
           method: GET
     package: 
       artifact: bin/fetchAllExpenses.zip
+  addExpense:
+    runtime: provided.al2023
+    handler: addExpense
+    events:
+      - http:
+          path: expenses-tracker
+          method: GET
+    package: 
+      artifact: bin/addExpense.zip
 
 resources:
   Resources:
