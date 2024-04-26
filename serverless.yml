@@ -39,7 +39,7 @@ functions:
     events:
       - http:
           path: expenses-tracker
-          method: GET
+          method: POST
     package: 
       artifact: bin/addExpense.zip
 
