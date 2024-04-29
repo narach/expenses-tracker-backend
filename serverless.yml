@@ -34,6 +34,16 @@ functions:
           cors: true
     package: 
       artifact: bin/fetchAllExpenses.zip
+  getExpenseStatistics:
+    runtime: provided.al2023
+    handler: getExpenseStatistics
+    events:
+      - http:
+          path: expenses-tracker/statistics
+          method: GET
+          cors: true
+    package: 
+      artifact: bin/getExpenseStatistics.zip
   addExpense:
     runtime: provided.al2023
     handler: addExpense

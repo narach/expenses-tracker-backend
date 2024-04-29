@@ -2,6 +2,7 @@ define build_binaries
 	@echo "- Building binaries..."
 	@GOOS=linux GOARCH=amd64 go build -o bin/fetchAllExpenses lambdas/fetchAllExpenses/main.go
 	@GOOS=linux GOARCH=amd64 go build -o bin/addExpense lambdas/addExpense/main.go
+	@GOOS=linux GOARCH=amd64 go build -o bin/getExpenseStatistics lambdas/getExpenseStatistics/main.go
 	@echo "Finished building binaries"
 endef
 
@@ -31,4 +32,5 @@ deploy:
 	${build_binaries}
 	${zip_files}
 	${deploy_to_aws}
+	${clean_up}
 	
