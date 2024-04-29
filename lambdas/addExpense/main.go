@@ -62,7 +62,10 @@ func addExpense(req events.APIGatewayProxyRequest) (events.APIGatewayProxyRespon
 	return events.APIGatewayProxyResponse{
 		StatusCode: http.StatusOK,
 		Headers: map[string]string{
-			"Content-Type": "application/json",
+			"Access-Control-Allow-Headers": "Content-Type",
+			"Access-Control-Allow-Origin":  "*",
+			"Access-Control-Allow-Methods": "OPTIONS,POST,GET",
+			"Content-Type":                 "application/json",
 		},
 		Body: string(resultJson),
 	}, nil

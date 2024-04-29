@@ -31,6 +31,7 @@ functions:
       - http:
           path: expenses-tracker
           method: GET
+          cors: true
     package: 
       artifact: bin/fetchAllExpenses.zip
   addExpense:
@@ -40,6 +41,7 @@ functions:
       - http:
           path: expenses-tracker
           method: POST
+          cors: true
     package: 
       artifact: bin/addExpense.zip
 
