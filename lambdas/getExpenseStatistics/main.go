@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
+	"math"
 	"net/http"
 	"os"
 
@@ -63,10 +64,11 @@ func groupExpenses(expenses []structs.Expense) map[string]float64 {
 	expensesStats := make(map[string]float64)
 	for _, expense := range expenses {
 		_, exists := expensesStats[expense.Category]
+		amount := math.Round(expense.Amount*100) / 100
 		if exists {
-			expensesStats[expense.Category] += expense.Amount
+			expensesStats[expense.Category] += amount
 		} else {
-			expensesStats[expense.Category] = expense.Amount
+			expensesStats[expense.Category] = amount
 		}
 	}
 	return expensesStats
