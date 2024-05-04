@@ -23,7 +23,7 @@ func PopulateCategories(expenses []structs.Expense) ([]structs.Category) {
 		}
 		_, alreadyAdded := categoriesMap[categoryKey]
 		if (alreadyAdded) {
-			categoriesMap[categoryKey].Add(decimal.NewFromFloat(expense.Amount))
+			categoriesMap[categoryKey] = categoriesMap[categoryKey].Add(decimal.NewFromFloat(expense.Amount))
 		} else {
 			categoriesMap[categoryKey] = decimal.NewFromFloat(expense.Amount)
 		}
@@ -39,7 +39,7 @@ func PopulateCategories(expenses []structs.Expense) ([]structs.Category) {
 
 	// Sorting categories by amount
 	slices.SortFunc(categories, func(i, j structs.Category) int {
-		return i.Amount.Compare(j.Amount)
+		return j.Amount.Compare(i.Amount)
 	})
 	return categories
 }

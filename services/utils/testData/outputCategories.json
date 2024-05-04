@@ -1,0 +1,27 @@
+[
+  {
+    "Name": "Other",
+    "Month": "05-2024",
+    "Amount": 70
+  },
+  {
+    "Name": "Food",
+    "Month": "04-2024",
+    "Amount": 47.16
+  },
+  {
+    "Name": "Restaurants",
+    "Month": "04-2024",
+    "Amount": 23.1
+  },
+  {
+    "Name": "Restaurants",
+    "Month": "05-2024",
+    "Amount": 16.2
+  },
+  {
+    "Name": "Pets",
+    "Month": "04-2024",
+    "Amount": 9
+  }
+]
