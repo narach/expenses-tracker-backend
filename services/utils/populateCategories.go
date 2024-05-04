@@ -1,16 +1,17 @@
 package utils
 
 import (
+	"cmp"
 	"fmt"
+	"math"
 	"slices"
 	"time"
 
-	"github.com/shopspring/decimal"
 	"narach1988.mne/expenses-tracker/services/structs"
 )
 
 func PopulateCategories(expenses []structs.Expense) ([]structs.Category) {
-	categoriesMap := make(map[structs.CategoryKey]decimal.Decimal)
+	categoriesMap := make(map[structs.CategoryKey]float64)
 	for _, expense := range expenses {
 		category := expense.Category
 		unixTime := time.Unix(expense.ExpenseDateLong/1000, 0)
@@ -23,15 +24,15 @@ func PopulateCategories(expenses []structs.Expense) ([]structs.Category) {
 		}
 		_, alreadyAdded := categoriesMap[categoryKey]
 		if (alreadyAdded) {
-			categoriesMap[categoryKey] = categoriesMap[categoryKey].Add(decimal.NewFromFloat(expense.Amount))
+			categoriesMap[categoryKey] += expense.Amount
 		} else {
-			categoriesMap[categoryKey] = decimal.NewFromFloat(expense.Amount)
+			categoriesMap[categoryKey] = expense.Amount
 		}
 	}
 	categories := []structs.Category{}
 	for key, value := range categoriesMap {
 		categoryItem := structs.Category {
-			Amount: value,
+			Amount: toFixed(value, 2),
 			CategoryKey: key,
 		}
 		categories = append(categories, categoryItem)
@@ -39,7 +40,16 @@ func PopulateCategories(expenses []structs.Expense) ([]structs.Category) {
 
 	// Sorting categories by amount
 	slices.SortFunc(categories, func(i, j structs.Category) int {
-		return j.Amount.Compare(i.Amount)
+		return cmp.Compare(j.Amount, i.Amount)
 	})
 	return categories
+}
+
+func round(num float64) int {
+    return int(num + math.Copysign(0.5, num))
+}
+
+func toFixed(num float64, precision int) float64 {
+    output := math.Pow(10, float64(precision))
+    return float64(round(num * output)) / output
 }

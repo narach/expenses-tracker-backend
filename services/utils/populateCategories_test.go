@@ -1,6 +1,7 @@
 package utils
 
 import (
+	"cmp"
 	"encoding/json"
 	"fmt"
 	"io"
@@ -8,7 +9,6 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/shopspring/decimal"
 	"narach1988.mne/expenses-tracker/services/structs"
 )
 
@@ -34,14 +34,14 @@ func TestPopulateCategories(t * testing.T) {
 				Name: "Vehicles",
 				Month: "05-2024",
 			},
-			Amount: decimal.NewFromFloat(75.0),
+			Amount: 75.0,
 		},
 		{
 			CategoryKey: structs.CategoryKey{
 				Name: "Food",
 				Month: "05-2024",
 			},
-			Amount: decimal.NewFromFloat(50.0),
+			Amount: 50.0,
 		},
 	}
 
@@ -65,7 +65,7 @@ func TestCategoriesByMonth(t * testing.T) {
 	actualCategories := PopulateCategories(expenses)
 	for index, expectedCategory := range expCategoreis {
 		actualCategory := actualCategories[index]
-		isEquals := expectedCategory.CategoryKey == actualCategory.CategoryKey && expectedCategory.Amount.Equal(actualCategory.Amount)
+		isEquals := expectedCategory.CategoryKey == actualCategory.CategoryKey && cmp.Compare(expectedCategory.Amount, actualCategory.Amount) == 0
 		if !isEquals {
 			t.Errorf("Expected %v, but got %v", expectedCategory, actualCategory)
 		}
