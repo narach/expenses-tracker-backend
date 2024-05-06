@@ -1,0 +1,50 @@
+[
+  {
+    "ID": "3547b9ec-d0d6-4cac-9c23-d4a1580c04b3",
+    "Title": "Damaged car compensation",
+    "Amount": 70,
+    "Category": "Other",
+    "ExpenseDate": "05-01-2024",
+    "ExpenseDateLong": 1714521600000
+  },
+  {
+    "ID": "80567e18-a41a-4901-b37a-4c96b54bdf45",
+    "Title": "Products in Aroma",
+    "Amount": 37.16,
+    "Category": "Food",
+    "ExpenseDate": "04-29-2024",
+    "ExpenseDateLong": 1714348800000
+  },
+  {
+    "ID": "a5086fbf-d206-412c-85ee-ac453fa8e7db",
+    "Title": "Cat's sanitiser",
+    "Amount": 9,
+    "Category": "Pets",
+    "ExpenseDate": "04-26-2024",
+    "ExpenseDateLong": 1714089600000
+  },
+  {
+    "ID": "b7440652-f622-4a92-8245-54f9384d8661",
+    "Title": "Fruits",
+    "Amount": 10,
+    "Category": "Food",
+    "ExpenseDate": "04-30-2024",
+    "ExpenseDateLong": 1714435200000
+  },
+  {
+    "ID": "01b91bbd-ed30-45c0-8eaa-f526fed560a5",
+    "Title": "Lunch in Herceg-Novi",
+    "Amount": 16.2,
+    "Category": "Restaurants",
+    "ExpenseDate": "05-01-2024",
+    "ExpenseDateLong": 1714521600000
+  },
+  {
+    "ID": "0d300602-3f36-4a3a-aebd-63b0265bc8ad",
+    "Title": "Stake and salad in Podgorica",
+    "Amount": 23.1,
+    "Category": "Restaurants",
+    "ExpenseDate": "04-27-2024",
+    "ExpenseDateLong": 1714176000000
+  }
+]
