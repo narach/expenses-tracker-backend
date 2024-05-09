@@ -3,6 +3,7 @@ define build_binaries
 	@GOOS=linux GOARCH=amd64 go build -o bin/fetchAllExpenses lambdas/fetchAllExpenses/main.go
 	@GOOS=linux GOARCH=amd64 go build -o bin/addExpense lambdas/addExpense/main.go
 	@GOOS=linux GOARCH=amd64 go build -o bin/getExpenseStatistics lambdas/getExpenseStatistics/main.go
+	@GOOS=linux GOARCH=amd64 go build -o bin/getUniqueCategories lambdas/getUniqueCategories/main.go
 	@echo "Finished building binaries"
 endef
 

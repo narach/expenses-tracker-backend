@@ -21,7 +21,7 @@ func fetchAllExpenses() (events.APIGatewayProxyResponse, error) {
 	dynamoDbClient := utils.GetDynamoClient()
 
 	response, err := dynamoDbClient.Scan(context.TODO(), &dynamodb.ScanInput{
-		TableName: aws.String(os.Getenv("TABLE_NAME")),
+		TableName: aws.String(os.Getenv("EXPENSE_TABLE_NAME")),
 	})
 
 	if err != nil {

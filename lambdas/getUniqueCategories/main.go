@@ -7,21 +7,34 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"slices"
 
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
 	"github.com/aws/aws-sdk-go-v2/feature/dynamodb/attributevalue"
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb"
 	"github.com/aws/aws-sdk-go/aws"
+	"github.com/aws/aws-sdk-go/service/dynamodb/expression"
 	"narach1988.mne/expenses-tracker/services/structs"
 	"narach1988.mne/expenses-tracker/services/utils"
 )
 
-func getExpenseStatistics() (events.APIGatewayProxyResponse, error) {
+func getUniqueCategories() (events.APIGatewayProxyResponse, error) {
 	dynamoDbClient := utils.GetDynamoClient()
 
+	projExp := expression.NamesList(expression.Name("Category"))
+	expr, err := expression.NewBuilder().WithProjection(projExp).Build()
+	if err != nil {
+		log.Printf("Couldn't build expressions for scan. Here's why: %v\n", err)
+		return events.APIGatewayProxyResponse{
+			StatusCode: http.StatusInternalServerError,
+			Body:       fmt.Sprint("Error while retrieving data from DynamoDB", err),
+		}, nil
+	}
+
 	response, err := dynamoDbClient.Scan(context.TODO(), &dynamodb.ScanInput{
-		TableName: aws.String(os.Getenv("CATEGORY_TABLE_NAME")),
+		TableName:            aws.String(os.Getenv("CATEGORY_TABLE_NAME")),
+		ProjectionExpression: expr.Projection(),
 	})
 
 	if err != nil {
@@ -31,15 +44,15 @@ func getExpenseStatistics() (events.APIGatewayProxyResponse, error) {
 		}, nil
 	}
 
-	var categoriesData []structs.CategoryItem
+	var categories []structs.CategoryPick
 
-	if err = attributevalue.UnmarshalListOfMaps(response.Items, &categoriesData); err != nil {
+	if err = attributevalue.UnmarshalListOfMaps(response.Items, &categories); err != nil {
 		log.Fatalf("Error occured while umashalling, %v", err)
 	}
 
-	expenseStats := groupCategories(categoriesData)
+	categories = slices.Compact(categories)
 
-	jsonResponse, err := json.Marshal(expenseStats)
+	jsonResponse, err := json.Marshal(categories)
 
 	if err != nil {
 		return events.APIGatewayProxyResponse{
@@ -58,20 +71,6 @@ func getExpenseStatistics() (events.APIGatewayProxyResponse, error) {
 	}, nil
 }
 
-// Group expenses by categories
-func groupCategories(categories []structs.CategoryItem) map[string]float32 {
-	expensesStats := make(map[string]float32)
-	for _, category := range categories {
-		_, exists := expensesStats[category.Category]
-		if exists {
-			expensesStats[category.Category] += category.Amount
-		} else {
-			expensesStats[category.Category] = category.Amount
-		}
-	}
-	return expensesStats
-}
-
 func main() {
-	lambda.Start(getExpenseStatistics)
+	lambda.Start(getUniqueCategories)
 }

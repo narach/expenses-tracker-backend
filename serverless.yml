@@ -18,10 +18,12 @@ provider:
             - - "Fn::GetAtt": [ DynamoDB, Arn ]
               - "*"
   environment:
-    TABLE_NAME: ${self:custom.tableName}
+    EXPENSE_TABLE_NAME: ${self:custom.expenseTable}
+    CATEGORY_TABLE_NAME: ${self:custom.categoryTable}
 
 custom:
-  tableName: expenses
+  expenseTable: expenses
+  categoryTable: categories_aggregation
 
 functions:
   fetchAllExpenses:
@@ -54,6 +56,16 @@ functions:
           cors: true
     package: 
       artifact: bin/addExpense.zip
+  getUniqueCategories:
+    runtime: provided.al2023
+    handler: getUniqueCategories
+    events:
+      - http:
+          path: expenses-tracker/unique-categories
+          method: GET
+          cors: true
+    package: 
+      artifact: bin/uniqueCategories.zip
 
 resources:
   Resources:
